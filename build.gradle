@@ -15,6 +15,9 @@ plugins {
 
     // Lombok
     id "io.freefair.lombok" version "4.1.6"
+
+    // Spotless
+    id "com.diffplug.gradle.spotless" version "3.26.1"
 }
 
 repositories {
@@ -29,6 +32,9 @@ dependencies {
 
     // Use JUnit test framework
     testImplementation 'junit:junit:4.12'
+
+    // Mockito
+    testCompile "org.mockito:mockito-core:2.+"
 }
 
 application {

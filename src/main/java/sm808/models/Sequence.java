@@ -9,7 +9,7 @@ import lombok.AllArgsConstructor;
 public class Sequence {
     private final int steps;
     // A sequence is a map from a step's index to the set of events at that step.
-    private final SetMultimap<Integer, Event> sequence = new HashMultimap<>();
+    private final SetMultimap<Integer, Event> sequence = HashMultimap.create();
 
     public void addEvent(int step, Event event) {
         Preconditions.checkArgument(step < steps);

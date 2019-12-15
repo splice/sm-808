@@ -6,10 +6,10 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import sm808.models.Event;
-import sm808.models.Sequence;
 import sm808.outputdevices.OutputDevice;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -23,9 +23,7 @@ public class SequencerTest {
     // Underlying sequence should be only two steps
     int tempo = 100;
     Sequencer sequencer = new Sequencer(mockOutputDevice, tempo, 1, 2);
-    Sequence sequence = sequencer.getSequence();
-    sequence.clear();
-    sequence.addEvents(0, Event.HIHAT, Event.KICK);
+    sequencer.addEvents(0, Event.HIHAT, Event.KICK);
 
     sequencer.click();
     verify(mockOutputDevice).play(ImmutableSet.of(Event.HIHAT, Event.KICK));
@@ -56,5 +54,30 @@ public class SequencerTest {
     Thread.sleep(1000);
     sequencer.stopSequence();
     verify(mockOutputDevice, times(2)).play(ImmutableSet.of());
+  }
+
+  @Test
+  public void testEventManagement() {
+    // This sequencer should have 4 steps
+    Sequencer sequencer = new Sequencer(mockOutputDevice, 60, 2, 2);
+    sequencer.addEvents(3, Event.SNARE);
+    assertEquals(ImmutableSet.of(), sequencer.getEvents(0));
+    assertEquals(ImmutableSet.of(Event.SNARE), sequencer.getEvents(3));
+    sequencer.clear(3);
+    assertEquals(ImmutableSet.of(), sequencer.getEvents(3));
+
+    try {
+      sequencer.getEvents(4);
+      fail();
+    } catch (Exception e) {
+      // good! we were out of bounds
+    }
+
+    try {
+      sequencer.clear(4);
+      fail();
+    } catch (Exception e) {
+      // good! we were out of bounds
+    }
   }
 }

@@ -4,7 +4,6 @@
 package sm808;
 
 import sm808.models.Event;
-import sm808.models.Sequence;
 import sm808.outputdevices.ConsoleOutputDevice;
 import sm808.outputdevices.OutputDevice;
 
@@ -16,11 +15,10 @@ public class App {
     public static void main(String[] args) {
         OutputDevice outputDevice = new ConsoleOutputDevice();
         Sequencer sequencer = new Sequencer(outputDevice, 128, DEFAULT_BEATS_PER_SEQUENCE, DEFAULT_SUBDIVISIONS);
-        Sequence sequence = sequencer.getSequence();
-        sequence.addEvents(0, Event.KICK);
-        sequence.addEvents(2, Event.HIHAT);
-        sequence.addEvents(4, Event.KICK, Event.SNARE);
-        sequence.addEvents(6, Event.HIHAT);
+        sequencer.addEvents(0, Event.KICK);
+        sequencer.addEvents(2, Event.HIHAT);
+        sequencer.addEvents(4, Event.KICK, Event.SNARE);
+        sequencer.addEvents(6, Event.HIHAT);
         sequencer.startSequence();
         try {
             Thread.sleep(10*1000);

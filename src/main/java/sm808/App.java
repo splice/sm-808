@@ -3,12 +3,31 @@
  */
 package sm808;
 
+import sm808.models.Event;
+import sm808.models.Sequence;
+import sm808.outputdevices.ConsoleOutputDevice;
+import sm808.outputdevices.OutputDevice;
+
 public class App {
-    public String getGreeting() {
-        return "Hello world.";
-    }
+    // Defaults: 4/4 time, with one step per eighth note.
+    private static final int DEFAULT_BEATS_PER_SEQUENCE = 4;
+    private static final int DEFAULT_SUBDIVISIONS = 2;
 
     public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
+        OutputDevice outputDevice = new ConsoleOutputDevice();
+        Sequencer sequencer = new Sequencer(outputDevice, 128, DEFAULT_BEATS_PER_SEQUENCE, DEFAULT_SUBDIVISIONS);
+        Sequence sequence = sequencer.getSequence();
+        sequence.addEvents(0, Event.KICK);
+        sequence.addEvents(2, Event.HIHAT);
+        sequence.addEvents(4, Event.KICK, Event.SNARE);
+        sequence.addEvents(6, Event.HIHAT);
+        sequencer.startSequence();
+        try {
+            Thread.sleep(10*1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } finally {
+          sequencer.stopSequence();
+        }
     }
 }

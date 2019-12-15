@@ -1,5 +1,20 @@
 # SM-808 Practice exercise
 
+### Getting started
+#### Running
+1. Install JDK and Gradle
+2. `./gradlew run`
+
+#### Testing
+`./gradlew test`
+
+### Changelog
+TODO: Add description of each version.
+
+### Notes for reviewers
+TODO: Discuss implementation, design choices, and next steps.
+
+# Original question
 The goal of this exercise is to practice designing models and
 interfaces.
 

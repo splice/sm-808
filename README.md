@@ -2,17 +2,34 @@
 
 ### Getting started
 #### Running
-1. Install JDK and Gradle
+1. Install [JDK 8+](https://www.oracle.com/technetwork/java/javase/downloads/index.html) and [Gradle](https://gradle.org/install/)
 2. `./gradlew run`
 
 #### Testing
 `./gradlew test`
 
 ### Changelog
-TODO: Add description of each version.
+#### 1.0.0
+Adds console-based UI for building a sequence, and outputs the sequence to console. 
 
 ### Notes for reviewers
-TODO: Discuss implementation, design choices, and next steps.
+#### Design choices
+Language choice: Java. Partially because it enables strongly typed interfaces, which makes implementing the strategy pattern (e.g. for `OutputDevice`s) clean, and partially because the JVM makes this code platform agnostic.
+
+I chose a fairly simple approach to this problem, with the intention of making it extensible so that new features can easily be added without making drastic changes to the underlying software components. There are 3 main components to this program:
+1. `SequenceBuilder` interface: provides a UI for building a sequence
+2. `Sequencer`:  models the sequence itself and provides functionality for starting and stopping the sequence
+3. `OutputDevice` interface: provides logic for outputting the sequence to the user
+
+Version 1.0.0 of this program implements only the minimum requirements of this task - it collects the sequence from the user via console, it can only build an 8-step sequence, and it outputs the sequence as console text. However, due to the extensibility of this modular design, it should be simple to swap out the UI or output mechanism for something more user-friendly and build more sophisticated sequences.
+
+#### Follow-ups and potential features
+- Add additional OutputDevices (MIDI, audio interface, ...)
+- Allow user to specify time signature note value for tempo (quarter, eighth, dotted eighth, etc.)
+- Allow user to specify the number of subdivisions per beat
+- Allow user to change the sequence on the fly
+- Allow user to tap any key to specify tempo
+- Add a more user-friendly UI
 
 # Original question
 The goal of this exercise is to practice designing models and

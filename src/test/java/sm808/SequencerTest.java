@@ -7,19 +7,24 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import sm808.models.Event;
 import sm808.outputdevices.OutputDevice;
+import sm808.outputdevices.PlaybackException;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class SequencerTest {
   @Mock private OutputDevice mockOutputDevice;
 
   @Test
-  public void testClick() {
+  public void testClick() throws PlaybackException {
     // Underlying sequence should be only two steps
     int tempo = 100;
     Sequencer sequencer = new Sequencer(mockOutputDevice, tempo, 1, 2);
@@ -37,6 +42,15 @@ public class SequencerTest {
 
     sequencer.click();
     verify(mockOutputDevice).play(ImmutableSet.of(Event.HIHAT, Event.KICK));
+
+    // When output device errors, we should get an exception
+    doThrow(new PlaybackException(new RuntimeException("Boom"))).when(mockOutputDevice).play(any());
+    try {
+      sequencer.click();
+      fail();
+    } catch (PlaybackException e) {
+      // good!
+    }
   }
 
   @Test
@@ -46,7 +60,7 @@ public class SequencerTest {
   }
 
   @Test
-  public void testStopAndStart() throws InterruptedException {
+  public void testStopAndStart() throws InterruptedException, PlaybackException {
     reset(mockOutputDevice);
     // With this configuration, we should get two clicks in one second
     Sequencer sequencer = new Sequencer(mockOutputDevice, 59, 4, 2);

@@ -5,6 +5,7 @@ import com.google.common.collect.ImmutableMap;
 import sm808.ParserException;
 import sm808.Sequencer;
 import sm808.models.Event;
+import sm808.outputdevices.AudioOutputDevice;
 import sm808.outputdevices.ConsoleOutputDevice;
 import sm808.outputdevices.OutputDevice;
 
@@ -28,7 +29,7 @@ public class ConsoleSequenceBuilder implements SequenceBuilder {
 
     public void run() {
         // TODO get output device from user choice
-        OutputDevice outputDevice = new ConsoleOutputDevice();
+        OutputDevice outputDevice = new AudioOutputDevice();
 
         System.out.println("==== SM-808 ====");
         System.out.print("Enter tempo (BPM): ");

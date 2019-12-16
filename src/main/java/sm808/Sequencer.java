@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NonNull;
 import sm808.models.Event;
 import sm808.outputdevices.OutputDevice;
+import sm808.outputdevices.PlaybackException;
 
 import java.util.Set;
 import java.util.Timer;
@@ -88,7 +89,11 @@ public class Sequencer {
         new TimerTask() {
           @Override
           public void run() {
-            click();
+            try {
+              click();
+            } catch (PlaybackException e) {
+              e.printStackTrace();
+            }
           }
         },
         0,
@@ -102,7 +107,7 @@ public class Sequencer {
 
   /** Figures out which events need to be played right now and sends them to the output device. */
   @VisibleForTesting
-  protected void click() {
+  protected void click() throws PlaybackException {
     outputDevice.play(sequence.get(currentStep));
     currentStep++;
 

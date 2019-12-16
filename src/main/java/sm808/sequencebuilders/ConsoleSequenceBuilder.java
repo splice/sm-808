@@ -7,6 +7,7 @@ import sm808.Sequencer;
 import sm808.models.Event;
 import sm808.outputdevices.AudioOutputDevice;
 import sm808.outputdevices.ConsoleOutputDevice;
+import sm808.outputdevices.MidiOutputDevice;
 import sm808.outputdevices.OutputDevice;
 
 import java.util.Arrays;
@@ -29,7 +30,7 @@ public class ConsoleSequenceBuilder implements SequenceBuilder {
 
     public void run() {
         // TODO get output device from user choice
-        OutputDevice outputDevice = new AudioOutputDevice();
+        OutputDevice outputDevice = new MidiOutputDevice();
 
         System.out.println("==== SM-808 ====");
         System.out.print("Enter tempo (BPM): ");

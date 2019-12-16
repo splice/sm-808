@@ -3,7 +3,7 @@
 ### Getting started
 #### Running
 1. Install [JDK 8+](https://www.oracle.com/technetwork/java/javase/downloads/index.html) and [Gradle](https://gradle.org/install/)
-2. `./gradlew run`
+2. `./gradlew run -q --console=plain`
 
 #### Testing
 `./gradlew test`

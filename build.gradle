@@ -41,3 +41,7 @@ application {
     // Define the main class for the application.
     mainClassName = 'sm808.App'
 }
+
+run {
+    standardInput = System.in
+}

@@ -4,6 +4,7 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.SetMultimap;
+import lombok.Getter;
 import lombok.NonNull;
 import sm808.models.Event;
 import sm808.outputdevices.OutputDevice;
@@ -17,7 +18,7 @@ public class Sequencer {
   private final int tempo;
   private final int subdivisions;
 
-  private int steps;
+  @Getter private int numSteps;
   private int currentStep = 0;
   // A sequence is a map from a step's index to the set of events at that step.
   private final SetMultimap<Integer, Event> sequence = HashMultimap.create();
@@ -33,14 +34,14 @@ public class Sequencer {
    *     value of the specified * tempo. For example, in 4/4 time we'd have 4 beats (quarter notes)
    *     per sequence. In 6/8 time * we'd have 2 beats (dotted quarters) per sequence.
    * @param subdivisions The number of subdivisions in a beat. For example, 2 subdivisions in 4/4
-   *     time will result in 8 * steps per sequence, with each step representing an eighth note.
+   *     time will result in 8 * numSteps per sequence, with each step representing an eighth note.
    */
   public Sequencer(
       @NonNull OutputDevice outputDevice, int tempo, int beatsPerSequence, int subdivisions) {
     this.outputDevice = outputDevice;
     this.tempo = tempo;
     this.subdivisions = subdivisions;
-    this.steps = beatsPerSequence * this.subdivisions;
+    this.numSteps = beatsPerSequence * this.subdivisions;
   }
 
   /**
@@ -49,7 +50,7 @@ public class Sequencer {
    * @param events One or more events to add
    */
   public void addEvents(final int step, @NonNull final Event... events) {
-    Preconditions.checkArgument(step < steps);
+    Preconditions.checkArgument(step < numSteps);
     for (Event event : events) {
       sequence.put(step, event);
     }
@@ -61,7 +62,7 @@ public class Sequencer {
    * @return The events for this step
    */
   public Set<Event> getEvents(int step) {
-    Preconditions.checkArgument(step < steps);
+    Preconditions.checkArgument(step < numSteps);
     return sequence.get(step);
   }
 
@@ -77,7 +78,7 @@ public class Sequencer {
    * @param step The step
    */
   public void clear(int step) {
-    Preconditions.checkArgument(step < steps);
+    Preconditions.checkArgument(step < numSteps);
     sequence.get(step).clear();
   }
 
@@ -105,7 +106,7 @@ public class Sequencer {
     outputDevice.play(sequence.get(currentStep));
     currentStep++;
 
-    if (currentStep >= steps) {
+    if (currentStep >= numSteps) {
       outputDevice.endBar();
       currentStep = 0;
     }

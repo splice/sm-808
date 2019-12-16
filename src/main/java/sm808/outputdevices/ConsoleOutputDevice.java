@@ -13,7 +13,7 @@ public class ConsoleOutputDevice implements OutputDevice {
         if (events.isEmpty()) {
             sb.append("_");
         } else {
-            sb.append(events.stream().map(this::eventToString).collect(Collectors.joining("+")));
+            sb.append(events.stream().map(Event::toString).collect(Collectors.joining("+")));
         }
         System.out.print(sb.toString());
     }
@@ -21,14 +21,5 @@ public class ConsoleOutputDevice implements OutputDevice {
     @Override
     public void endBar() {
         System.out.println("|");
-    }
-
-    private String eventToString(Event event) {
-        switch(event) {
-            case KICK: return "kick";
-            case SNARE: return "snare";
-            case HIHAT: return "hihat";
-            default: return event.toString();
-        }
     }
 }

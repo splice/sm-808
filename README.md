@@ -8,9 +8,16 @@
 #### Testing
 `./gradlew test`
 
+#### Using the MIDI output device
+This program provides the option of outputting a sequence as MIDI. You may want to set up a virtual MIDI interface so that the MIDI output can get picked up by another program running on your computer. In my case, I followed [these instructions](https://dialogaudio.com/modulationprocessor/guides/virtual_midi/virtual_midi_setup.php) to set up a virtual MIDI port on my mac and configured Superior Drummer to use that port as its input. The mapping of events to MIDI note values is defined in the MidiOutputDevice; you may wish to tweak these values depending on your configuration.
+
 ### Changelog
+#### 2.0.0
+- Adds audio and MIDI output devices.
+- Allows realtime sequence editing for non-console output modes.
+
 #### 1.0.0
-Adds console-based UI for building a sequence, and outputs the sequence to console. 
+- Adds console-based UI for building a sequence, and outputs the sequence to console. 
 
 ### Notes for reviewers
 #### Design choices
@@ -21,15 +28,14 @@ I chose a fairly simple approach to this problem, with the intention of making i
 2. `Sequencer`:  models the sequence itself and provides functionality for starting and stopping the sequence
 3. `OutputDevice` interface: provides logic for outputting the sequence to the user
 
-Version 1.0.0 of this program implements only the minimum requirements of this task - it collects the sequence from the user via console, it can only build an 8-step sequence, and it outputs the sequence as console text. However, due to the extensibility of this modular design, it should be simple to swap out the UI or output mechanism for something more user-friendly and build more sophisticated sequences.
+Version 2.0.0 of this program has a few limitations - it collects the sequence from the user via console which is a poor UX, and it can only build an 8-step sequence. However, due to the extensibility of this modular design, it should be simple to swap out the UI for something more user-friendly and build more sophisticated sequences.
 
 #### Follow-ups and potential features
-- Add additional OutputDevices (MIDI, audio interface, ...)
+- Allow user to specify the number of beats & subdivisions per beat
 - Allow user to specify time signature note value for tempo (quarter, eighth, dotted eighth, etc.)
-- Allow user to specify the number of subdivisions per beat
-- Allow user to change the sequence on the fly
-- Allow user to tap any key to specify tempo
+- Allow user to tap a key to specify tempo
 - Add a more user-friendly UI
+- Technical: Use dependency injection to simplify testing of output devices.
 
 # Original question
 The goal of this exercise is to practice designing models and

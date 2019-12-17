@@ -77,8 +77,15 @@ public class SequencerTest {
     sequencer.addEvents(3, Event.SNARE);
     assertEquals(ImmutableSet.of(), sequencer.getEvents(0));
     assertEquals(ImmutableSet.of(Event.SNARE), sequencer.getEvents(3));
+
     sequencer.clear(3);
     assertEquals(ImmutableSet.of(), sequencer.getEvents(3));
+
+    sequencer.addEvents(0, Event.KICK, Event.SNARE);
+    sequencer.addEvents(1, Event.KICK);
+    sequencer.clear(Event.KICK);
+    assertEquals(ImmutableSet.of(Event.SNARE), sequencer.getEvents(0));
+    assertEquals(ImmutableSet.of(), sequencer.getEvents(1));
 
     try {
       sequencer.getEvents(4);

@@ -68,10 +68,12 @@ public class Sequencer {
   }
 
   /**
-   * Clears all events from this sequencer's sequence
+   * Clears all events of a given type from this sequencer's sequence
    */
-  public void clear() {
-    sequence.clear();
+  public void clear(Event eventType) {
+    for (int i = 0; i < numSteps; i++) {
+      sequence.get(i).remove(eventType);
+    }
   }
 
   /**

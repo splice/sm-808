@@ -133,4 +133,24 @@ public class ConsoleSequenceBuilder implements SequenceBuilder {
       }
     }
   }
+
+  @VisibleForTesting
+  protected String buildDefaultLine(Event eventType, int numBeats, int numSubdivisions) {
+    int numSteps = numBeats * numSubdivisions;
+    StringBuilder sb = new StringBuilder();
+    sb.append('|');
+    for (int i = 0; i < numSteps; i++) {
+      // See unit test for examples of default patterns
+      if (eventType == Event.KICK && i % numSubdivisions == 0) {
+        sb.append("X|");
+      } else if (eventType == Event.SNARE && i % (2 * numSubdivisions) - numSubdivisions == 0) {
+        sb.append("X|");
+      } else if (eventType == Event.HIHAT && (i - Math.ceil(numSubdivisions / 2.0)) % numSubdivisions == 0) {
+        sb.append("X|");
+      } else {
+        sb.append("_|");
+      }
+    }
+    return sb.toString();
+  }
 }

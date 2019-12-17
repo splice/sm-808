@@ -10,6 +10,7 @@ import sm808.ParserException;
 import sm808.Sequencer;
 import sm808.models.Event;
 
+import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
@@ -80,5 +81,38 @@ public class ConsoleSequenceBuilderTest {
     }
 
     verify(mockSequencer, never()).addEvents(anyInt(), eq(Event.KICK));
+  }
+
+  @Test
+  public void testBuildDefaultLine() {
+    int numBeats = 4, numSubdivisions = 2;
+    assertEquals("|X|_|X|_|X|_|X|_|", builder.buildDefaultLine(Event.KICK, numBeats, numSubdivisions));
+    assertEquals("|_|X|_|X|_|X|_|X|", builder.buildDefaultLine(Event.HIHAT, numBeats, numSubdivisions));
+    assertEquals("|_|_|X|_|_|_|X|_|", builder.buildDefaultLine(Event.SNARE, numBeats, numSubdivisions));
+
+    numBeats = 2;
+    numSubdivisions = 4;
+    assertEquals("|X|_|_|_|X|_|_|_|", builder.buildDefaultLine(Event.KICK,  numBeats, numSubdivisions));
+    assertEquals("|_|_|_|_|X|_|_|_|", builder.buildDefaultLine(Event.SNARE, numBeats, numSubdivisions));
+    assertEquals("|_|_|X|_|_|_|X|_|", builder.buildDefaultLine(Event.HIHAT, numBeats, numSubdivisions));
+
+
+    numBeats = 5;
+    numSubdivisions = 1;
+    assertEquals("|X|X|X|X|X|", builder.buildDefaultLine(Event.KICK, numBeats, numSubdivisions));
+    assertEquals("|_|X|_|X|_|", builder.buildDefaultLine(Event.SNARE, numBeats, numSubdivisions));
+    assertEquals("|X|X|X|X|X|", builder.buildDefaultLine(Event.HIHAT, numBeats, numSubdivisions));
+
+    numBeats = 3;
+    numSubdivisions = 3;
+    assertEquals("|X|_|_|X|_|_|X|_|_|", builder.buildDefaultLine(Event.KICK, numBeats, numSubdivisions));
+    assertEquals("|_|_|_|X|_|_|_|_|_|", builder.buildDefaultLine(Event.SNARE, numBeats, numSubdivisions));
+    assertEquals("|_|_|X|_|_|X|_|_|X|", builder.buildDefaultLine(Event.HIHAT, numBeats, numSubdivisions));
+
+    numBeats = 2;
+    numSubdivisions = 5;
+    assertEquals("|X|_|_|_|_|X|_|_|_|_|", builder.buildDefaultLine(Event.KICK, numBeats, numSubdivisions));
+    assertEquals("|_|_|_|_|_|X|_|_|_|_|", builder.buildDefaultLine(Event.SNARE, numBeats, numSubdivisions));
+    assertEquals("|_|_|_|X|_|_|_|_|X|_|", builder.buildDefaultLine(Event.HIHAT, numBeats, numSubdivisions));
   }
 }

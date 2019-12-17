@@ -1,5 +1,10 @@
 # SM-808 Practice exercise
 
+### Demo
+In this demo, the sequencer is outputting MIDI which is picked up by Superior Drummer:
+
+[![Watch the demo](https://img.youtube.com/vi/JxUE8cjreqM/maxresdefault.jpg)](https://youtu.be/JxUE8cjreqM)
+
 ### Getting started
 #### Running
 1. Install [JDK 8+](https://www.oracle.com/technetwork/java/javase/downloads/index.html) and [Gradle](https://gradle.org/install/)

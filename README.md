@@ -17,6 +17,9 @@ In this demo, the sequencer is outputting MIDI which is picked up by Superior Dr
 This program provides the option of outputting a sequence as MIDI. You may want to set up a virtual MIDI interface so that the MIDI output can get picked up by another program running on your computer. In my case, I followed [these instructions](https://dialogaudio.com/modulationprocessor/guides/virtual_midi/virtual_midi_setup.php) to set up a virtual MIDI port on my mac and configured Superior Drummer to use that port as its input. The mapping of events to MIDI note values is defined in the MidiOutputDevice; you may wish to tweak these values depending on your configuration.
 
 ### Changelog
+#### 2.1.0
+- Adds ability to specify number of beats per sequence and number of subdivisions per beat. Builds default tracks based on these parameters.
+
 #### 2.0.0
 - Adds audio and MIDI output devices.
 - Allows realtime sequence editing for non-console output modes.
@@ -33,11 +36,9 @@ I chose a fairly simple approach to this problem, with the intention of making i
 2. `Sequencer`:  models the sequence itself and provides functionality for starting and stopping the sequence
 3. `OutputDevice` interface: provides logic for outputting the sequence to the user
 
-Version 2.0.0 of this program has a few limitations - it collects the sequence from the user via console which is a poor UX, and it can only build an 8-step sequence. However, due to the extensibility of this modular design, it should be simple to swap out the UI for something more user-friendly and build more sophisticated sequences.
+Version 2.1.0 of this program has a few limitations - it collects the sequence from the user via console which is a poor UX. However, due to the extensibility of this modular design, it should be simple to swap out the UI for something more user-friendly. For example, one could implement a `SwingSequenceBuilder` that provides a visually disappointing Java-based UI, or an `APIDrivenSequenceBuilder` that starts an http server and exposes an API for configuring the sequencer, opening up the possibility of a browser-based UI.
 
 #### Follow-ups and potential features
-- Allow user to specify the number of beats & subdivisions per beat
-- Allow user to specify time signature note value for tempo (quarter, eighth, dotted eighth, etc.)
 - Allow user to tap a key to specify tempo
 - Add a more user-friendly UI
 - Technical: Use dependency injection to simplify testing of output devices.

@@ -17,18 +17,7 @@ import java.util.Scanner;
 import java.util.stream.Collectors;
 
 public class ConsoleSequenceBuilder implements SequenceBuilder {
-  // Defaults: 4/4 time, with one step per eighth note.
-  private static final int DEFAULT_BEATS_PER_SEQUENCE = 4;
-  private static final int DEFAULT_SUBDIVISIONS = 2;
-
-  private static final ImmutableMap<Event, String> DEFAULT_LINES =
-      ImmutableMap.<Event, String>builder()
-          .put(Event.KICK, "|X|_|_|_|X|_|_|_|")
-          .put(Event.SNARE, "|_|_|_|_|X|_|_|_|")
-          .put(Event.HIHAT, "|_|_|X|_|_|_|X|_|")
-          .build();
-
-  private Scanner scanner = new Scanner(System.in);
+  private final Scanner scanner = new Scanner(System.in);
 
   public void run() {
     System.out.println("==== SM-808 ====");
@@ -66,24 +55,47 @@ public class ConsoleSequenceBuilder implements SequenceBuilder {
       }
     }
 
-    // TODO Could get beats + subdivisions from user input, but would have to update parsing logic.
+    int beatsPerSequence = 2;
+    System.out.print("How many beats per sequence? (Default: 2) ");
+    try {
+      beatsPerSequence = Integer.parseInt(scanner.nextLine().trim());
+    } catch (NumberFormatException e) {
+      // Ignore, we'll just use the default
+    }
+
+    int subdivisions = 4;
+    System.out.print("How many subdivisions per beat? (Default: 4) ");
+    try {
+      subdivisions = Integer.parseInt(scanner.nextLine().trim());
+    } catch (NumberFormatException e) {
+      // Ignore, we'll just use the default
+    }
+
     Sequencer sequencer =
-        new Sequencer(outputDevice, tempo, DEFAULT_BEATS_PER_SEQUENCE, DEFAULT_SUBDIVISIONS);
+        new Sequencer(outputDevice, tempo, beatsPerSequence, subdivisions);
+
+    ImmutableMap.Builder<Event, String> mapBuilder = ImmutableMap.builder();
+    for (Event event : Event.values()) {
+      mapBuilder.put(event, buildDefaultLine(event, beatsPerSequence, subdivisions));
+    }
+    Map<Event, String> defaultLines = mapBuilder.build();
 
     if (interactiveRunMode) {
       sequencer.startSequence();
-      Map<Event, String> defaultLines = DEFAULT_LINES;
       while (true) {
         // Keeps track of the last entered lines, starting with the defaults.
-        defaultLines = defaultLines.entrySet()
-          .stream()
-          .collect(Collectors.toMap(Map.Entry::getKey, entry -> collectInput(entry.getKey(), entry.getValue(), sequencer)));
+        defaultLines =
+            defaultLines.entrySet().stream()
+                .collect(
+                    Collectors.toMap(
+                        Map.Entry::getKey,
+                        entry -> collectInput(entry.getKey(), entry.getValue(), sequencer)));
         System.out.println("Press enter to reprogram. Press Ctrl-C to quit.");
         scanner.nextLine();
       }
 
     } else {
-      DEFAULT_LINES.forEach((key, value) -> collectInput(key, value, sequencer));
+      defaultLines.forEach((key, value) -> collectInput(key, value, sequencer));
 
       System.out.println("Press enter to start. Press enter again to stop.");
       scanner.nextLine();
@@ -145,7 +157,8 @@ public class ConsoleSequenceBuilder implements SequenceBuilder {
         sb.append("X|");
       } else if (eventType == Event.SNARE && i % (2 * numSubdivisions) - numSubdivisions == 0) {
         sb.append("X|");
-      } else if (eventType == Event.HIHAT && (i - Math.ceil(numSubdivisions / 2.0)) % numSubdivisions == 0) {
+      } else if (eventType == Event.HIHAT
+          && (i - Math.ceil(numSubdivisions / 2.0)) % numSubdivisions == 0) {
         sb.append("X|");
       } else {
         sb.append("_|");

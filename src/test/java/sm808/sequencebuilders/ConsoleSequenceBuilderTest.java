@@ -1,5 +1,12 @@
 package sm808.sequencebuilders;
 
+import static junit.framework.TestCase.assertEquals;
+import static junit.framework.TestCase.fail;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -9,15 +16,6 @@ import org.mockito.junit.MockitoJUnitRunner;
 import sm808.ParserException;
 import sm808.Sequencer;
 import sm808.models.Event;
-
-import static junit.framework.TestCase.assertEquals;
-import static junit.framework.TestCase.fail;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ConsoleSequenceBuilderTest {
@@ -86,16 +84,21 @@ public class ConsoleSequenceBuilderTest {
   @Test
   public void testBuildDefaultLine() {
     int numBeats = 4, numSubdivisions = 2;
-    assertEquals("|X|_|X|_|X|_|X|_|", builder.buildDefaultLine(Event.KICK, numBeats, numSubdivisions));
-    assertEquals("|_|X|_|X|_|X|_|X|", builder.buildDefaultLine(Event.HIHAT, numBeats, numSubdivisions));
-    assertEquals("|_|_|X|_|_|_|X|_|", builder.buildDefaultLine(Event.SNARE, numBeats, numSubdivisions));
+    assertEquals(
+        "|X|_|X|_|X|_|X|_|", builder.buildDefaultLine(Event.KICK, numBeats, numSubdivisions));
+    assertEquals(
+        "|_|X|_|X|_|X|_|X|", builder.buildDefaultLine(Event.HIHAT, numBeats, numSubdivisions));
+    assertEquals(
+        "|_|_|X|_|_|_|X|_|", builder.buildDefaultLine(Event.SNARE, numBeats, numSubdivisions));
 
     numBeats = 2;
     numSubdivisions = 4;
-    assertEquals("|X|_|_|_|X|_|_|_|", builder.buildDefaultLine(Event.KICK,  numBeats, numSubdivisions));
-    assertEquals("|_|_|_|_|X|_|_|_|", builder.buildDefaultLine(Event.SNARE, numBeats, numSubdivisions));
-    assertEquals("|_|_|X|_|_|_|X|_|", builder.buildDefaultLine(Event.HIHAT, numBeats, numSubdivisions));
-
+    assertEquals(
+        "|X|_|_|_|X|_|_|_|", builder.buildDefaultLine(Event.KICK, numBeats, numSubdivisions));
+    assertEquals(
+        "|_|_|_|_|X|_|_|_|", builder.buildDefaultLine(Event.SNARE, numBeats, numSubdivisions));
+    assertEquals(
+        "|_|_|X|_|_|_|X|_|", builder.buildDefaultLine(Event.HIHAT, numBeats, numSubdivisions));
 
     numBeats = 5;
     numSubdivisions = 1;
@@ -105,14 +108,20 @@ public class ConsoleSequenceBuilderTest {
 
     numBeats = 3;
     numSubdivisions = 3;
-    assertEquals("|X|_|_|X|_|_|X|_|_|", builder.buildDefaultLine(Event.KICK, numBeats, numSubdivisions));
-    assertEquals("|_|_|_|X|_|_|_|_|_|", builder.buildDefaultLine(Event.SNARE, numBeats, numSubdivisions));
-    assertEquals("|_|_|X|_|_|X|_|_|X|", builder.buildDefaultLine(Event.HIHAT, numBeats, numSubdivisions));
+    assertEquals(
+        "|X|_|_|X|_|_|X|_|_|", builder.buildDefaultLine(Event.KICK, numBeats, numSubdivisions));
+    assertEquals(
+        "|_|_|_|X|_|_|_|_|_|", builder.buildDefaultLine(Event.SNARE, numBeats, numSubdivisions));
+    assertEquals(
+        "|_|_|X|_|_|X|_|_|X|", builder.buildDefaultLine(Event.HIHAT, numBeats, numSubdivisions));
 
     numBeats = 2;
     numSubdivisions = 5;
-    assertEquals("|X|_|_|_|_|X|_|_|_|_|", builder.buildDefaultLine(Event.KICK, numBeats, numSubdivisions));
-    assertEquals("|_|_|_|_|_|X|_|_|_|_|", builder.buildDefaultLine(Event.SNARE, numBeats, numSubdivisions));
-    assertEquals("|_|_|_|X|_|_|_|_|X|_|", builder.buildDefaultLine(Event.HIHAT, numBeats, numSubdivisions));
+    assertEquals(
+        "|X|_|_|_|_|X|_|_|_|_|", builder.buildDefaultLine(Event.KICK, numBeats, numSubdivisions));
+    assertEquals(
+        "|_|_|_|_|_|X|_|_|_|_|", builder.buildDefaultLine(Event.SNARE, numBeats, numSubdivisions));
+    assertEquals(
+        "|_|_|_|X|_|_|_|_|X|_|", builder.buildDefaultLine(Event.HIHAT, numBeats, numSubdivisions));
   }
 }

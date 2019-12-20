@@ -1,15 +1,14 @@
 package sm808.outputdevices;
 
+import static org.junit.Assert.assertEquals;
+
 import com.google.common.collect.ImmutableSet;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import sm808.models.Event;
-
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
-
-import static org.junit.Assert.assertEquals;
 
 public class ConsoleOutputDeviceTest {
   private final ConsoleOutputDevice device = new ConsoleOutputDevice();
@@ -52,8 +51,8 @@ public class ConsoleOutputDeviceTest {
     device.play(ImmutableSet.of());
     device.endBar();
 
-    String expected = "|kick|_|hihat|_|kick+snare|_|hihat|_|\n" +
-                      "|kick|_|hihat|_|kick+snare|_|hihat|_|\n";
+    String expected =
+        "|kick|_|hihat|_|kick+snare|_|hihat|_|\n" + "|kick|_|hihat|_|kick+snare|_|hihat|_|\n";
     assertEquals(expected, outContent.toString());
   }
 }

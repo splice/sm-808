@@ -45,3 +45,9 @@ application {
 run {
     standardInput = System.in
 }
+
+spotless {
+    java {
+        googleJavaFormat()
+    }
+}

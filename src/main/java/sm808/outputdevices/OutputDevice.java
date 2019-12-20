@@ -1,8 +1,7 @@
 package sm808.outputdevices;
 
-import sm808.models.Event;
-
 import java.util.Set;
+import sm808.models.Event;
 
 public interface OutputDevice {
   /**

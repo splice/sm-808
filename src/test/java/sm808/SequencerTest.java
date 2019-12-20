@@ -1,5 +1,13 @@
 package sm808;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.reset;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+
 import com.google.common.collect.ImmutableSet;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -8,16 +16,6 @@ import org.mockito.junit.MockitoJUnitRunner;
 import sm808.models.Event;
 import sm808.outputdevices.OutputDevice;
 import sm808.outputdevices.PlaybackException;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.reset;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class SequencerTest {
@@ -55,7 +53,8 @@ public class SequencerTest {
 
   @Test
   public void testComputeClickDuration() {
-    // At 60 BPM, 4/4 time, and 2 subdivisions, we should have 120 clicks per minute = 500 ms per click
+    // At 60 BPM, 4/4 time, and 2 subdivisions, we should have 120 clicks per minute = 500 ms per
+    // click
     assertEquals(500, new Sequencer(mockOutputDevice, 60, 4, 2).computeClickDurationMillis());
   }
 

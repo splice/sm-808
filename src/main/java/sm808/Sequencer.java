@@ -4,15 +4,14 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.SetMultimap;
+import java.util.Set;
+import java.util.Timer;
+import java.util.TimerTask;
 import lombok.Getter;
 import lombok.NonNull;
 import sm808.models.Event;
 import sm808.outputdevices.OutputDevice;
 import sm808.outputdevices.PlaybackException;
-
-import java.util.Set;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class Sequencer {
   @NonNull private final OutputDevice outputDevice;
@@ -47,6 +46,7 @@ public class Sequencer {
 
   /**
    * Add the given event(s) to the sequence
+   *
    * @param step The step to add the event at
    * @param events One or more events to add
    */
@@ -59,6 +59,7 @@ public class Sequencer {
 
   /**
    * Gets the events at a given step
+   *
    * @param step The step
    * @return The events for this step
    */
@@ -67,9 +68,7 @@ public class Sequencer {
     return sequence.get(step);
   }
 
-  /**
-   * Clears all events of a given type from this sequencer's sequence
-   */
+  /** Clears all events of a given type from this sequencer's sequence */
   public void clear(Event eventType) {
     for (int i = 0; i < numSteps; i++) {
       sequence.get(i).remove(eventType);
@@ -78,6 +77,7 @@ public class Sequencer {
 
   /**
    * Clears all events from the specified step
+   *
    * @param step The step
    */
   public void clear(int step) {

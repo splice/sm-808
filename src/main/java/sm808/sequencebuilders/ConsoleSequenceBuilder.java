@@ -2,6 +2,11 @@ package sm808.sequencebuilders;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableMap;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.Scanner;
+import java.util.stream.Collectors;
 import sm808.ParserException;
 import sm808.Sequencer;
 import sm808.models.Event;
@@ -9,12 +14,6 @@ import sm808.outputdevices.AudioOutputDevice;
 import sm808.outputdevices.ConsoleOutputDevice;
 import sm808.outputdevices.MidiOutputDevice;
 import sm808.outputdevices.OutputDevice;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
-import java.util.stream.Collectors;
 
 public class ConsoleSequenceBuilder implements SequenceBuilder {
   private final Scanner scanner = new Scanner(System.in);
@@ -71,8 +70,7 @@ public class ConsoleSequenceBuilder implements SequenceBuilder {
       // Ignore, we'll just use the default
     }
 
-    Sequencer sequencer =
-        new Sequencer(outputDevice, tempo, beatsPerSequence, subdivisions);
+    Sequencer sequencer = new Sequencer(outputDevice, tempo, beatsPerSequence, subdivisions);
 
     ImmutableMap.Builder<Event, String> mapBuilder = ImmutableMap.builder();
     for (Event event : Event.values()) {

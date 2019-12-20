@@ -1,9 +1,9 @@
 package sm808.outputdevices;
 
+import static junit.framework.TestCase.assertTrue;
+
 import org.junit.Test;
 import sm808.models.Event;
-
-import static junit.framework.TestCase.assertTrue;
 
 public class AudioOutputDeviceTest {
   @Test

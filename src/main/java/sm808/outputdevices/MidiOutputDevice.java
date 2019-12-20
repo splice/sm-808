@@ -11,26 +11,26 @@ import sm808.models.Event;
 
 public class MidiOutputDevice implements OutputDevice {
   private static final int VELOCITY = 93;
-  private static final Map<Event, Integer> MIDI_MAPPING =
-      ImmutableMap.<Event, Integer>builder()
-          .put(Event.KICK, 36)
-          .put(Event.SNARE, 38)
-          .put(Event.HIHAT, 62)
-          .build();
 
   private final Map<Event, ShortMessage> midiMessages;
 
   public MidiOutputDevice() {
     ImmutableMap.Builder<Event, ShortMessage> builder = ImmutableMap.builder();
 
-    for (Map.Entry<Event, Integer> entry : MIDI_MAPPING.entrySet()) {
-      try {
-        builder.put(
-            entry.getKey(), new ShortMessage(ShortMessage.NOTE_ON, 0, entry.getValue(), VELOCITY));
-      } catch (InvalidMidiDataException e) {
-        // We won't be able to play this event since its MIDI mapping is poorly configured.
-        e.printStackTrace();
-      }
+    for (Event event : Event.values()) {
+      event
+          .getMidiNoteValue()
+          .ifPresent(
+              midiNoteValue -> {
+                try {
+                  builder.put(
+                      event, new ShortMessage(ShortMessage.NOTE_ON, 0, midiNoteValue, VELOCITY));
+                } catch (InvalidMidiDataException e) {
+                  // We won't be able to play this event since its MIDI mapping is poorly
+                  // configured.
+                  e.printStackTrace();
+                }
+              });
     }
     midiMessages = builder.build();
   }

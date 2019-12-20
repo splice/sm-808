@@ -4,6 +4,7 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableMap;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.Map;
 import java.util.Set;
 import javax.sound.sampled.AudioInputStream;
@@ -17,12 +18,14 @@ public class AudioOutputDevice implements OutputDevice {
   private final Map<Event, URL> audioUrls;
 
   public AudioOutputDevice() {
-    audioUrls =
-        ImmutableMap.<Event, URL>builder()
-            .put(Event.KICK, getResource("audio/kick.wav"))
-            .put(Event.SNARE, getResource("audio/snare.wav"))
-            .put(Event.HIHAT, getResource("audio/hihat.wav"))
-            .build();
+    ImmutableMap.Builder<Event, URL> builder = ImmutableMap.builder();
+    Arrays.stream(Event.values())
+        .forEach(
+            event ->
+                event
+                    .getAudioPath()
+                    .ifPresent(audioPath -> builder.put(event, getResource(audioPath))));
+    audioUrls = builder.build();
   }
 
   private URL getResource(String path) {

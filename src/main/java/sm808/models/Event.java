@@ -17,8 +17,14 @@ public enum Event {
   HIHAT("hihat", Optional.of(62), Optional.of("audio/hihat.wav"));
 
   @NonNull private final String name;
-  @NonNull private final Optional<Integer> midiNoteValue;
-  @NonNull private final Optional<String> audioPath;
+
+  @NonNull
+  @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
+  private final Optional<Integer> midiNoteValue;
+
+  @NonNull
+  @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
+  private final Optional<String> audioPath;
 
   @Override
   public String toString() {

@@ -31,10 +31,10 @@ public class Sequencer {
    * @param outputDevice The OutputDevice to use
    * @param tempo The tempo in BPM
    * @param beatsPerSequence The number of beats in this sequence. This corresponds to the beat
-   *     value of the specified * tempo. For example, in 4/4 time we'd have 4 beats (quarter notes)
+   *     value of the specified tempo. For example, in 4/4 time we'd have 4 beats (quarter notes)
    *     per sequence. In 6/8 time * we'd have 2 beats (dotted quarters) per sequence.
    * @param subdivisions The number of subdivisions in a beat. For example, 2 subdivisions in 4/4
-   *     time will result in 8 * numSteps per sequence, with each step representing an eighth note.
+   *     time will result in 8 steps per sequence, with each step representing an eighth note.
    */
   public Sequencer(
       @NonNull OutputDevice outputDevice, int tempo, int beatsPerSequence, int subdivisions) {
